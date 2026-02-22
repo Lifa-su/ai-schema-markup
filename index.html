@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Schema Markup Generator - Generate JSON-LD Structured Data</title>
+<meta name="description" content="Free AI-powered Schema Markup Generator. Create JSON-LD structured data for 23+ schema types with AI smart fill, Google Rich Results preview, and validation.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏗️</text></svg>">
+<style>
+:root{--p:#4F46E5;--pl:#818CF8;--pd:#3730A3;--bg:#0F172A;--bgc:#1E293B;--bgi:#334155;--t:#F1F5F9;--tm:#94A3B8;--bd:#475569;--ok:#10B981;--wn:#F59E0B;--er:#EF4444;--r:12px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--t);min-height:100vh}
+a{color:var(--pl);text-decoration:none}a:hover{text-decoration:underline}
+.header{background:linear-gradient(135deg,var(--pd),var(--p));padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.header h1{font-size:1.4rem;font-weight:700;display:flex;align-items:center;gap:8px}
+.header-actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{padding:8px 16px;border-radius:8px;border:none;cursor:pointer;font-size:.875rem;font-weight:600;transition:all .2s;display:inline-flex;align-items:center;gap:6px}
+.btn-p{background:var(--p);color:#fff}.btn-p:hover{background:var(--pl)}
+.btn-s{background:var(--bgi);color:var(--t);border:1px solid var(--bd)}.btn-s:hover{background:var(--bd)}
+.btn-ok{background:var(--ok);color:#fff}.btn-ok:hover{opacity:.9}
+.btn-sm{padding:6px 12px;font-size:.8rem}
+.main{display:grid;grid-template-columns:250px 1fr 1fr;gap:0;min-height:calc(100vh - 64px)}
+@media(max-width:1200px){.main{grid-template-columns:1fr}.sidebar{display:none}.form-panel,.output-panel{max-height:none}}
+@media(max-width:768px){.header{padding:12px 16px}.header h1{font-size:1.1rem}}
+.sidebar{background:var(--bgc);border-right:1px solid var(--bd);padding:16px;overflow-y:auto;max-height:calc(100vh - 64px)}
+.sidebar input{width:100%;padding:10px 12px;background:var(--bgi);border:1px solid var(--bd);border-radius:8px;color:var(--t);font-size:.875rem;margin-bottom:12px}
+.sidebar input:focus{outline:none;border-color:var(--p)}
+.scat{margin-bottom:16px}.scat h3{font-size:.7rem;text-transform:uppercase;color:var(--tm);margin-bottom:8px;letter-spacing:.05em}
+.si{padding:8px 12px;border-radius:8px;cursor:pointer;font-size:.875rem;transition:all .15s;display:flex;align-items:center;gap:8px}
+.si:hover{background:var(--bgi)}.si.active{background:var(--p);color:#fff}
+.si .em{font-size:1rem;width:20px;text-align:center}
+.form-panel{padding:24px;overflow-y:auto;max-height:calc(100vh - 64px);border-right:1px solid var(--bd)}
+.form-panel h2{font-size:1.2rem;margin-bottom:4px}
+.form-panel .sub{color:var(--tm);font-size:.85rem;margin-bottom:20px}
+.ai-bar{background:linear-gradient(135deg,#1E1B4B,#312E81);border:1px solid var(--p);border-radius:var(--r);padding:16px;margin-bottom:20px}
+.ai-bar h3{font-size:.95rem;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.ai-row{display:flex;gap:8px}.ai-row input{flex:1;padding:10px 12px;background:var(--bgi);border:1px solid var(--bd);border-radius:8px;color:var(--t);font-size:.875rem}
+.ai-row input:focus{outline:none;border-color:var(--p)}
+.fg{margin-bottom:16px}
+.fg label{display:block;font-size:.85rem;font-weight:600;margin-bottom:6px}
+.fg .req{color:var(--er)}.fg .badge{font-size:.7rem;padding:2px 6px;border-radius:4px;margin-left:6px;font-weight:500}
+.b-req{background:rgba(239,68,68,.2);color:var(--er)}.b-rec{background:rgba(245,158,11,.2);color:var(--wn)}
+.fg input,.fg textarea,.fg select{width:100%;padding:10px 12px;background:var(--bgi);border:1px solid var(--bd);border-radius:8px;color:var(--t);font-size:.875rem;font-family:inherit}
+.fg input:focus,.fg textarea:focus,.fg select:focus{outline:none;border-color:var(--p)}
+.fg textarea{min-height:80px;resize:vertical}.fg select{cursor:pointer}
+.fg .help{font-size:.75rem;color:var(--tm);margin-top:4px}
+.nested{border:1px dashed var(--bd);border-radius:8px;padding:16px;margin-top:8px;background:rgba(79,70,229,.05)}
+.nested h4{font-size:.85rem;color:var(--pl);margin-bottom:12px}
+.arr-field{border:1px solid var(--bd);border-radius:8px;padding:12px;margin-top:4px}
+.arr-item{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+.arr-item input{flex:1}
+.arr-item .rbtn{background:var(--er);color:#fff;border:none;border-radius:6px;width:28px;height:28px;cursor:pointer;font-size:.8rem}
+.output-panel{background:var(--bgc);padding:24px;overflow-y:auto;max-height:calc(100vh - 64px)}
+.output-panel h2{font-size:1.1rem;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.code-block{background:#0D1117;border:1px solid var(--bd);border-radius:var(--r);overflow:hidden;margin-bottom:16px}
+.code-header{background:var(--bgi);padding:8px 12px;display:flex;justify-content:space-between;align-items:center;font-size:.8rem}
+.code-content{padding:16px;overflow-x:auto;font-family:'SF Mono',Monaco,Consolas,monospace;font-size:.8rem;line-height:1.6;white-space:pre-wrap;max-height:400px;overflow-y:auto;color:#E2E8F0}
+.valid-ok{color:var(--ok);display:flex;align-items:center;gap:4px;font-size:.85rem;margin-bottom:12px}
+.valid-err{color:var(--er);display:flex;align-items:center;gap:4px;font-size:.85rem;margin-bottom:12px}
+.preview-box{background:#fff;border-radius:var(--r);padding:20px;color:#202124;font-family:Arial,sans-serif;margin-bottom:16px}
+.preview-box .p-title{font-size:20px;color:#1a0dab;margin-bottom:4px;cursor:pointer}
+.preview-box .p-url{font-size:14px;color:#006621;margin-bottom:4px}
+.preview-box .p-desc{font-size:14px;color:#4d5156;line-height:1.4}
+.preview-box .p-rich{margin-top:8px;padding-top:8px;border-top:1px solid #e0e0e0}
+.preview-box .p-stars{color:#fbbc04;font-size:14px}
+.preview-box .p-meta{font-size:13px;color:#70757a;margin-top:4px}
+.preview-box .p-faq{margin-top:8px}.preview-box .p-faq-q{font-weight:700;font-size:14px;color:#202124;padding:8px 0 4px;cursor:pointer}
+.preview-box .p-faq-a{font-size:14px;color:#4d5156;padding-bottom:8px;border-bottom:1px solid #e0e0e0}
+.out-actions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;align-items:center;justify-content:center}
+.modal-overlay.show{display:flex}
+.modal{background:var(--bgc);border-radius:var(--r);padding:24px;max-width:700px;width:90%;max-height:80vh;overflow-y:auto}
+.modal h2{margin-bottom:16px}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--ok);color:#fff;padding:12px 20px;border-radius:8px;font-size:.875rem;font-weight:600;z-index:2000;transform:translateY(100px);opacity:0;transition:all .3s}
+.toast.show{transform:translateY(0);opacity:1}
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.batch-item{background:var(--bgi);border-radius:8px;padding:12px;margin-bottom:8px;display:flex;gap:8px;align-items:center}
+.batch-item select,.batch-item input{flex:1;padding:8px;background:var(--bg);border:1px solid var(--bd);border-radius:6px;color:var(--t);font-size:.85rem}
+.mobile-toggle{display:none;background:var(--p);color:#fff;border:none;padding:8px 12px;border-radius:8px;font-size:.85rem;cursor:pointer}
+@media(max-width:1200px){.mobile-toggle{display:inline-flex}}
+.tab-bar{display:none;background:var(--bgc);border-bottom:1px solid var(--bd);padding:8px 16px;gap:8px}
+@media(max-width:1200px){.tab-bar{display:flex}.main{grid-template-columns:1fr}}
+.tab-btn{padding:8px 16px;border-radius:8px;border:none;background:transparent;color:var(--tm);cursor:pointer;font-size:.85rem;font-weight:600}
+.tab-btn.active{background:var(--p);color:#fff}
+
+</style>
+</head>
+<body>
+<header class="header">
+  <h1><span>🏗️</span> AI Schema Markup Generator</h1>
+  <div class="header-actions">
+    <button class="btn btn-s btn-sm mobile-toggle" onclick="toggleSidebar()" style="display:none">☰ Types</button>
+    <button class="btn btn-s btn-sm" onclick="openBatchModal()">📦 Batch</button>
+    <button class="btn btn-s btn-sm" onclick="openSettingsModal()">⚙️ Settings</button>
+  </div>
+</header>
+<div class="tab-bar" id="tabBar">
+  <button class="tab-btn active" onclick="showTab('form')">📝 Form</button>
+  <button class="tab-btn" onclick="showTab('output')">💻 Output</button>
+</div>
+<div class="main" id="mainContainer">
+  <aside class="sidebar" id="sidebar">
+    <input type="text" placeholder="🔍 Search schema types..." id="schemaSearch" oninput="filterSchemas()">
+    <div id="schemaList"></div>
+  </aside>
+  <div class="form-panel" id="formPanel">
+    <h2 id="formTitle">Select a Schema Type</h2>
+    <p class="sub" id="formSubtitle">Choose a schema type from the sidebar to get started</p>
+    <div class="ai-bar" id="aiBar" style="display:none">
+      <h3>🤖 AI Smart Fill</h3>
+      <div class="ai-row">
+        <input type="text" id="aiInput" placeholder="Enter a URL or describe your content...">
+        <button class="btn btn-p btn-sm" onclick="aiSmartFill()" id="aiBtn">✨ Auto Fill</button>
+      </div>
+      <p class="help" style="margin-top:8px;font-size:.75rem;color:var(--tm)">AI will analyze and suggest the best schema type and fill fields automatically</p>
+    </div>
+    <div id="formFields"></div>
+    <div id="formActions" style="display:none;margin-top:20px;display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-p" onclick="generateJsonLd()">🚀 Generate JSON-LD</button>
+      <button class="btn btn-s" onclick="resetForm()">🔄 Reset</button>
+    </div>
+  </div>
+  <aside class="output-panel" id="outputPanel">
+    <h2>📄 Output</h2>
+    <div id="validationStatus"></div>
+    <div class="code-block">
+      <div class="code-header">
+        <span>JSON-LD</span>
+        <div style="display:flex;gap:6px">
+          <button class="btn btn-sm btn-ok" onclick="copyCode()">📋 Copy</button>
+          <button class="btn btn-sm btn-s" onclick="copyHtmlCode()">🏷️ HTML</button>
+        </div>
+      </div>
+      <pre class="code-content" id="codeOutput">// Select a schema type and fill in the form to generate JSON-LD</pre>
+    </div>
+    <div class="out-actions">
+      <button class="btn btn-s btn-sm" onclick="testRichResults()">🔍 Google Rich Results Test</button>
+      <button class="btn btn-s btn-sm" onclick="downloadJson()">💾 Download JSON-LD</button>
+      <button class="btn btn-s btn-sm" onclick="validateSchema()">✅ Validate</button>
+    </div>
+    <h2 style="margin-top:16px">👁️ Rich Results Preview</h2>
+    <div class="preview-box" id="previewBox">
+      <div class="p-title">Your Page Title</div>
+      <div class="p-url">https://example.com › page</div>
+      <div class="p-desc">Your page description will appear here with rich result enhancements based on your schema markup.</div>
+    </div>
+  </aside>
+</div>
+<div class="modal-overlay" id="batchModal">
+  <div class="modal">
+    <h2>📦 Batch Schema Generation</h2>
+    <p style="color:var(--tm);font-size:.85rem;margin-bottom:16px">Generate multiple schema markups at once.</p>
+    <div id="batchItems"></div>
+    <div style="display:flex;gap:8px;margin-top:16px">
+      <button class="btn btn-s btn-sm" onclick="addBatchItem()">+ Add Schema</button>
+      <button class="btn btn-p btn-sm" onclick="generateBatch()">🚀 Generate All</button>
+      <button class="btn btn-s btn-sm" onclick="closeBatchModal()">Close</button>
+    </div>
+    <pre class="code-content" id="batchOutput" style="margin-top:16px;background:#0D1117;border-radius:8px;padding:16px;display:none"></pre>
+  </div>
+</div>
+<div class="modal-overlay" id="settingsModal">
+  <div class="modal">
+    <h2>⚙️ Settings</h2>
+    <div class="fg">
+      <label>DeepSeek API Key</label>
+      <p class="help" style="margin-bottom:8px">Required for AI Smart Fill. Get your key at <a href="https://platform.deepseek.com" target="_blank">platform.deepseek.com</a></p>
+      <input type="password" id="apiKeyInput" placeholder="sk-...">
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-p btn-sm" onclick="saveApiKey()">Save</button>
+      <button class="btn btn-s btn-sm" onclick="closeSettingsModal()">Close</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================
+// AI Schema Markup Generator - Core Application
+// ============================================
+
+let currentType = null;
+let currentJsonLd = null;
+let apiKey = localStorage.getItem('deepseek_api_key') || '';
+
+// Schema Type Definitions (23 types, updated for 2025-2026)
+// Excludes deprecated: BookActions, ClaimReview, EstimatedSalary, LearningVideo, SpecialAnnouncement, VehicleListing
+const SCHEMAS = {
+  Article: {
+    icon:'📰', cat:'Content', desc:'News, blog posts, editorial content',
+    fields:[
+      {n:'headline',l:'Headline',t:'text',req:1,h:'Max 110 characters'},
+      {n:'image',l:'Image URL',t:'url',req:1},
+      {n:'datePublished',l:'Date Published',t:'datetime-local',req:1},
+      {n:'dateModified',l:'Date Modified',t:'datetime-local',rec:1},
+      {n:'description',l:'Description',t:'textarea',rec:1},
+      {n:'articleBody',l:'Article Body',t:'textarea'},
+      {n:'wordCount',l:'Word Count',t:'number'},
+      {n:'keywords',l:'Keywords',t:'text',h:'Comma-separated'},
+      {n:'author',l:'Author',t:'nested',sc:'Person',req:1},
+      {n:'publisher',l:'Publisher',t:'nested',sc:'Organization',req:1}
+    ]
+  },
+  Product: {
+    icon:'🛍️', cat:'Commerce', desc:'Products with pricing and reviews',
+    fields:[
+      {n:'name',l:'Product Name',t:'text',req:1},
+      {n:'image',l:'Image URL',t:'url',req:1},
+      {n:'description',l:'Description',t:'textarea',req:1},
+      {n:'sku',l:'SKU',t:'text',rec:1},
+      {n:'brand',l:'Brand Name',t:'text',rec:1},
+      {n:'gtin',l:'GTIN/UPC/EAN',t:'text'},
+      {n:'mpn',l:'MPN',t:'text'},
+      {n:'color',l:'Color',t:'text'},
+      {n:'material',l:'Material',t:'text'},
+      {n:'offers',l:'Offer',t:'nested',sc:'Offer',req:1},
+      {n:'aggregateRating',l:'Rating',t:'nested',sc:'AggregateRating',rec:1},
+      {n:'review',l:'Review',t:'nested',sc:'Review'}
+    ]
+  },
+  FAQPage: {
+    icon:'❓', cat:'Content', desc:'Frequently Asked Questions',
+    fields:[
+      {n:'mainEntity',l:'FAQ Items',t:'faq',req:1,h:'Add question & answer pairs'}
+    ]
+  },
+  HowTo: {
+    icon:'📋', cat:'Content', desc:'Step-by-step instructions',
+    fields:[
+      {n:'name',l:'Title',t:'text',req:1},
+      {n:'description',l:'Description',t:'textarea',rec:1},
+      {n:'image',l:'Image URL',t:'url',rec:1},
+      {n:'totalTime',l:'Total Time',t:'text',h:'ISO 8601: PT30M = 30min, PT1H = 1hr'},
+      {n:'estimatedCost',l:'Estimated Cost',t:'text',h:'e.g. $20 USD'},
+      {n:'supply',l:'Supplies',t:'array',h:'Materials needed'},
+      {n:'tool',l:'Tools',t:'array',h:'Tools required'},
+      {n:'step',l:'Steps',t:'steps',req:1}
+    ]
+  },
+  Recipe: {
+    icon:'🍳', cat:'Content', desc:'Recipes with ingredients and instructions',
+    fields:[
+      {n:'name',l:'Recipe Name',t:'text',req:1},
+      {n:'image',l:'Image URL',t:'url',req:1},
+      {n:'description',l:'Description',t:'textarea',rec:1},
+      {n:'prepTime',l:'Prep Time',t:'text',h:'ISO 8601: PT20M'},
+      {n:'cookTime',l:'Cook Time',t:'text',h:'ISO 8601: PT1H'},
+      {n:'totalTime',l:'Total Time',t:'text',h:'ISO 8601'},
+      {n:'recipeYield',l:'Servings',t:'text',rec:1},
+      {n:'recipeCategory',l:'Category',t:'text',h:'e.g. Dessert'},
+      {n:'recipeCuisine',l:'Cuisine',t:'text',h:'e.g. Italian'},
+      {n:'nutrition',l:'Calories',t:'text',h:'e.g. 250 calories'},
+      {n:'recipeIngredient',l:'Ingredients',t:'array',req:1},
+      {n:'recipeInstructions',l:'Instructions',t:'steps',req:1},
+      {n:'author',l:'Author',t:'nested',sc:'Person',rec:1},
+      {n:'aggregateRating',l:'Rating',t:'nested',sc:'AggregateRating'},
+      {n:'video',l:'Video',t:'nested',sc:'VideoObject'}
+    ]
+  },
+  Event: {
+    icon:'📅', cat:'Commerce', desc:'Events with dates, location, tickets',
+    fields:[
+      {n:'name',l:'Event Name',t:'text',req:1},
+      {n:'startDate',l:'Start Date',t:'datetime-local',req:1},
+      {n:'endDate',l:'End Date',t:'datetime-local',rec:1},
+      {n:'description',l:'Description',t:'textarea',rec:1},
+      {n:'image',l:'Image URL',t:'url',rec:1},
+      {n:'eventStatus',l:'Status',t:'select',opts:['EventScheduled','EventCancelled','EventMovedOnline','EventPostponed','EventRescheduled']},
+      {n:'eventAttendanceMode',l:'Attendance Mode',t:'select',opts:['OfflineEventAttendanceMode','OnlineEventAttendanceMode','MixedEventAttendanceMode']},
+      {n:'location',l:'Location',t:'nested',sc:'Place',req:1},
+      {n:'organizer',l:'Organizer',t:'nested',sc:'Organization',rec:1},
+      {n:'performer',l:'Performer',t:'nested',sc:'Person'},
+      {n:'offers',l:'Ticket/Offer',t:'nested',sc:'Offer',rec:1}
+    ]
+  },
+  LocalBusiness: {
+    icon:'🏪', cat:'Business', desc:'Local businesses with address and hours',
+    fields:[
+      {n:'name',l:'Business Name',t:'text',req:1},
+      {n:'image',l:'Image URL',t:'url',req:1},
+      {n:'description',l:'Description',t:'textarea',rec:1},
+      {n:'telephone',l:'Phone',t:'tel',rec:1},
+      {n:'email',l:'Email',t:'email'},
+      {n:'url',l:'Website URL',t:'url',rec:1},
+      {n:'priceRange',l:'Price Range',t:'text',h:'e.g. $$, $10-50'},
+      {n:'openingHours',l:'Opening Hours',t:'text',h:'e.g. Mo-Fr 09:00-17:00'},
+      {n:'address',l:'Address',t:'nested',sc:'PostalAddress',req:1},
+      {n:'geo',l:'Coordinates',t:'nested',sc:'GeoCoordinates',rec:1},
+      {n:'aggregateRating',l:'Rating',t:'nested',sc:'AggregateRating'}
+    ]
+  },
+  Organization: {
+    icon:'🏢', cat:'Business', desc:'Companies and organizations',
+    fields:[
+      {n:'name',l:'Organization Name',t:'text',req:1},
+      {n:'url',l:'Website URL',t:'url',req:1},
+      {n:'logo',l:'Logo URL',t:'url',req:1},
+      {n:'description',l:'Description',t:'textarea',rec:1},
+      {n:'email',l:'Email',t:'email'},
+      {n:'telephone',l:'Phone',t:'tel'},
+      {n:'foundingDate',l:'Founded',t:'date'},
+      {n:'sameAs',l:'Social Profiles',t:'array',h:'URLs of social media profiles'},
+      {n:'address',l:'Address',t:'nested',sc:'PostalAddress',rec:1}
+    ]
+  },
+  Person: {
+    icon:'👤', cat:'Business', desc:'People - authors, creators, professionals',
+    fields:[
+      {n:'name',l:'Full Name',t:'text',req:1},
+      {n:'url',l:'Profile URL',t:'url',rec:1},
+      {n:'image',l:'Photo URL',t:'url'},
+      {n:'jobTitle',l:'Job Title',t:'text',rec:1},
+      {n:'email',l:'Email',t:'email'},
+      {n:'telephone',l:'Phone',t:'tel'},
+      {n:'description',l:'Bio',t:'textarea'},
+      {n:'sameAs',l:'Social Profiles',t:'array',h:'URLs of social profiles'},
+      {n:'worksFor',l:'Works For',t:'nested',sc:'Organization'}
+    ]
+  },
+  Review: {
+    icon:'⭐', cat:'Content', desc:'Reviews with ratings',
+    fields:[
+      {n:'itemReviewed',l:'Item Reviewed',t:'text',req:1},
+      {n:'reviewRating',l:'Rating (1-5)',t:'number',req:1,h:'Numeric rating value'},
+      {n:'bestRating',l:'Best Rating',t:'number',h:'Default: 5'},
+      {n:'author',l:'Reviewer Name',t:'text',req:1},
+      {n:'datePublished',l:'Date Published',t:'date',rec:1},
+      {n:'reviewBody',l:'Review Text',t:'textarea',req:1},
+      {n:'publisher',l:'Publisher',t:'nested',sc:'Organization'}
+    ]
+  },
+  BreadcrumbList: {
+    icon:'🔗', cat:'Navigation', desc:'Breadcrumb navigation trail',
+    fields:[
+      {n:'itemListElement',l:'Breadcrumb Items',t:'breadcrumb',req:1,h:'Add breadcrumb path items'}
+    ]
+  },
+  VideoObject: {
+    icon:'🎬', cat:'Media', desc:'Videos with metadata',
+    fields:[
+      {n:'name',l:'Video Title',t:'text',req:1},
+      {n:'description',l:'Description',t:'textarea',req:1},
+      {n:'thumbnailUrl',l:'Thumbnail URL',t:'url',req:1},
+      {n:'uploadDate',l:'Upload Date',t:'datetime-local',req:1},
+      {n:'contentUrl',l:'Video URL',t:'url',rec:1},
+      {n:'embedUrl',l:'Embed URL',t:'url',rec:1},
+      {n:'duration',l:'Duration',t:'text',h:'ISO 8601: PT1H30M = 1hr 30min'},
+      {n:'interactionStatistic',l:'View Count',t:'number'}
+    ]
+  },
+  SoftwareApplication: {
+    icon:'📱', cat:'Commerce', desc:'Software apps and mobile apps',
+    fields:[
+      {n:'name',l:'App Name',t:'text',req:1},
+      {n:'operatingSystem',l:'Operating System',t:'text',rec:1,h:'e.g. Android, iOS, Windows'},
+      {n:'applicationCategory',l:'Category',t:'text',rec:1,h:'e.g. GameApplication, BusinessApplication'},
+      {n:'description',l:'Description',t:'textarea'},
+      {n:'screenshot',l:'Screenshot URL',t:'url'},
+      {n:'offers',l:'Pricing',t:'nested',sc:'Offer',req:1},
+      {n:'aggregateRating',l:'Rating',t:'nested',sc:'AggregateRating',rec:1}
+    ]
+  },
+  Course: {
+    icon:'🎓', cat:'Content', desc:'Educational courses',
+    fields:[
+      {n:'name',l:'Course Name',t:'text',req:1},
+      {n:'description',l:'Description',t:'textarea',req:1},
+      {n:'provider',l:'Provider',t:'nested',sc:'Organization',req:1},
+      {n:'url',l:'Course URL',t:'url',rec:1},
+      {n:'courseCode',l:'Course Code',t:'text'},
+      {n:'coursePrerequisites',l:'Prerequisites',t:'text'},
+      {n:'educationalLevel',l:'Level',t:'text',h:'e.g. Beginner, Intermediate, Advanced'},
+      {n:'inLanguage',l:'Language',t:'text',h:'e.g. en, es, fr'},
+      {n:'offers',l:'Pricing',t:'nested',sc:'Offer'}
+    ]
+  },
+  Dataset: {
+    icon:'📊', cat:'Content', desc:'Datasets for Google Dataset Search',
+    fields:[
+      {n:'name',l:'Dataset Name',t:'text',req:1},
+      {n:'description',l:'Description',t:'textarea',req:1},
+      {n:'url',l:'URL',t:'url',rec:1},
+      {n:'license',l:'License URL',t:'url',rec:1},
+      {n:'creator',l:'Creator',t:'nested',sc:'Organization',rec:1},
+      {n:'datePublished',l:'Date Published',t:'date'},
+      {n:'dateModified',l:'Date Modified',t:'date'},
+      {n:'distribution',l:'Download URL',t:'url',h:'Direct download link'},
+      {n:'keywords',l:'Keywords',t:'text',h:'Comma-separated'}
+    ]
+  },
+  JobPosting: {
+    icon:'💼', cat:'Commerce', desc:'Job listings',
+    fields:[
+      {n:'title',l:'Job Title',t:'text',req:1},
+      {n:'description',l:'Description',t:'textarea',req:1},
+      {n:'datePosted',l:'Date Posted',t:'date',req:1},
+      {n:'validThrough',l:'Valid Through',t:'date',rec:1},
+      {n:'employmentType',l:'Employment Type',t:'select',opts:['FULL_TIME','PART_TIME','CONTRACTOR','TEMPORARY','INTERN','VOLUNTEER','PER_DIEM','OTHER'],rec:1},
+      {n:'hiringOrganization',l:'Company',t:'nested',sc:'Organization',req:1},
+      {n:'jobLocation',l:'Location',t:'nested',sc:'Place',req:1},
+      {n:'baseSalary',l:'Salary',t:'text',h:'e.g. 50000-70000 USD/year'},
+      {n:'experienceRequirements',l:'Experience',t:'text'},
+      {n:'skills',l:'Skills',t:'text',h:'Comma-separated'},
+      {n:'industry',l:'Industry',t:'text'}
+    ]
+  },
+  Movie: {
+    icon:'🎬', cat:'Media', desc:'Movies with cast and ratings',
+    fields:[
+      {n:'name',l:'Movie Title',t:'text',req:1},
+      {n:'image',l:'Poster URL',t:'url',req:1},
+      {n:'description',l:'Description',t:'textarea',rec:1},
+      {n:'dateCreated',l:'Release Date',t:'date',rec:1},
+      {n:'director',l:'Director',t:'text',rec:1},
+      {n:'duration',l:'Duration',t:'text',h:'ISO 8601: PT2H30M'},
+      {n:'genre',l:'Genre',t:'text',h:'Comma-separated'},
+      {n:'actor',l:'Actors',t:'array',h:'Actor names'},
+      {n:'aggregateRating',l:'Rating',t:'nested',sc:'AggregateRating'}
+    ]
+  },
+  Restaurant: {
+    icon:'🍽️', cat:'Business', desc:'Restaurants with menu and hours',
+    fields:[
+      {n:'name',l:'Restaurant Name',t:'text',req:1},
+      {n:'image',l:'Image URL',t:'url',req:1},
+      {n:'description',l:'Description',t:'textarea',rec:1},
+      {n:'servesCuisine',l:'Cuisine Type',t:'text',req:1,h:'e.g. Italian, Japanese'},
+      {n:'telephone',l:'Phone',t:'tel',rec:1},
+      {n:'url',l:'Website',t:'url'},
+      {n:'priceRange',l:'Price Range',t:'text',h:'e.g. $$'},
+      {n:'openingHours',l:'Hours',t:'text',h:'e.g. Mo-Sa 11:00-22:00'},
+      {n:'menu',l:'Menu URL',t:'url'},
+      {n:'acceptsReservations',l:'Accepts Reservations',t:'select',opts:['True','False']},
+      {n:'address',l:'Address',t:'nested',sc:'PostalAddress',req:1},
+      {n:'geo',l:'Coordinates',t:'nested',sc:'GeoCoordinates'},
+      {n:'aggregateRating',l:'Rating',t:'nested',sc:'AggregateRating'}
+    ]
+  },
+  WebSite: {
+    icon:'🌐', cat:'Navigation', desc:'Website with sitelinks search box',
+    fields:[
+      {n:'name',l:'Website Name',t:'text',req:1},
+      {n:'url',l:'Website URL',t:'url',req:1},
+      {n:'potentialAction',l:'Search URL Template',t:'text',req:1,h:'e.g. https://example.com/search?q={search_term_string}'}
+    ]
+  },
+  ProfilePage: {
+    icon:'👤', cat:'Navigation', desc:'Profile pages for creators',
+    fields:[
+      {n:'name',l:'Profile Name',t:'text',req:1},
+      {n:'url',l:'Profile URL',t:'url',req:1},
+      {n:'image',l:'Profile Image',t:'url',rec:1},
+      {n:'description',l:'Bio',t:'textarea',rec:1},
+      {n:'dateCreated',l:'Date Created',t:'date'},
+      {n:'dateModified',l:'Date Modified',t:'date'}
+    ]
+  },
+  VacationRental: {
+    icon:'🏠', cat:'Commerce', desc:'Vacation rental properties',
+    fields:[
+      {n:'name',l:'Property Name',t:'text',req:1},
+      {n:'description',l:'Description',t:'textarea',req:1},
+      {n:'image',l:'Image URL',t:'url',req:1},
+      {n:'numberOfRooms',l:'Number of Rooms',t:'number',rec:1},
+      {n:'occupancy',l:'Max Occupancy',t:'number'},
+      {n:'floorSize',l:'Floor Size',t:'text',h:'e.g. 120 sqm'},
+      {n:'amenityFeature',l:'Amenities',t:'array',h:'e.g. WiFi, Pool, Parking'},
+      {n:'address',l:'Address',t:'nested',sc:'PostalAddress',req:1},
+      {n:'offers',l:'Pricing',t:'nested',sc:'Offer',rec:1}
+    ]
+  },
+  DiscussionForumPosting: {
+    icon:'💬', cat:'Content', desc:'Forum posts and discussions',
+    fields:[
+      {n:'headline',l:'Post Title',t:'text',req:1},
+      {n:'text',l:'Post Content',t:'textarea',req:1},
+      {n:'author',l:'Author',t:'nested',sc:'Person',req:1},
+      {n:'datePublished',l:'Date Published',t:'datetime-local',req:1},
+      {n:'url',l:'Post URL',t:'url',rec:1},
+      {n:'commentCount',l:'Comment Count',t:'number'},
+      {n:'isPartOf',l:'Forum Name',t:'text',h:'Name of the forum/community'}
+    ]
+  },
+  ImageObject: {
+    icon:'🖼️', cat:'Media', desc:'Images with metadata',
+    fields:[
+      {n:'name',l:'Image Title',t:'text',req:1},
+      {n:'contentUrl',l:'Image URL',t:'url',req:1},
+      {n:'description',l:'Description',t:'textarea',rec:1},
+      {n:'author',l:'Photographer/Creator',t:'nested',sc:'Person',rec:1},
+      {n:'datePublished',l:'Date Published',t:'date'},
+      {n:'license',l:'License URL',t:'url',h:'URL of the license'},
+      {n:'acquireLicensePage',l:'License Page',t:'url',h:'Page to acquire license'},
+      {n:'creditText',l:'Credit Text',t:'text'},
+      {n:'copyrightNotice',l:'Copyright Notice',t:'text'}
+    ]
+  }
+};
+
+// Nested schema field definitions
+const NESTED = {
+  Person: [
+    {n:'name',l:'Name',t:'text',req:1},
+    {n:'url',l:'URL',t:'url'}
+  ],
+  Organization: [
+    {n:'name',l:'Name',t:'text',req:1},
+    {n:'url',l:'URL',t:'url'},
+    {n:'logo',l:'Logo URL',t:'url'}
+  ],
+  Offer: [
+    {n:'price',l:'Price',t:'text',req:1},
+    {n:'priceCurrency',l:'Currency',t:'text',req:1,h:'e.g. USD, EUR, GBP'},
+    {n:'availability',l:'Availability',t:'select',opts:['InStock','OutOfStock','PreOrder','SoldOut','BackOrder','OnlineOnly','LimitedAvailability']},
+    {n:'url',l:'Offer URL',t:'url'},
+    {n:'validFrom',l:'Valid From',t:'date'},
+    {n:'priceValidUntil',l:'Valid Until',t:'date'}
+  ],
+  AggregateRating: [
+    {n:'ratingValue',l:'Rating Value',t:'text',req:1,h:'e.g. 4.5'},
+    {n:'bestRating',l:'Best Rating',t:'text',h:'Default: 5'},
+    {n:'ratingCount',l:'Rating Count',t:'number',req:1},
+    {n:'reviewCount',l:'Review Count',t:'number'}
+  ],
+  Review: [
+    {n:'author',l:'Reviewer',t:'text',req:1},
+    {n:'reviewRating',l:'Rating (1-5)',t:'number',req:1},
+    {n:'reviewBody',l:'Review Text',t:'textarea'},
+    {n:'datePublished',l:'Date',t:'date'}
+  ],
+  Place: [
+    {n:'name',l:'Place Name',t:'text',req:1},
+    {n:'address',l:'Address',t:'text',req:1},
+    {n:'url',l:'URL',t:'url'}
+  ],
+  PostalAddress: [
+    {n:'streetAddress',l:'Street Address',t:'text',req:1},
+    {n:'addressLocality',l:'City',t:'text',req:1},
+    {n:'addressRegion',l:'State/Region',t:'text',rec:1},
+    {n:'postalCode',l:'Postal Code',t:'text',rec:1},
+    {n:'addressCountry',l:'Country',t:'text',req:1,h:'2-letter code: US, GB, DE'}
+  ],
+  GeoCoordinates: [
+    {n:'latitude',l:'Latitude',t:'text',req:1},
+    {n:'longitude',l:'Longitude',t:'text',req:1}
+  ],
+  VideoObject: [
+    {n:'name',l:'Video Title',t:'text',req:1},
+    {n:'description',l:'Description',t:'textarea'},
+    {n:'thumbnailUrl',l:'Thumbnail URL',t:'url',req:1},
+    {n:'contentUrl',l:'Video URL',t:'url'},
+    {n:'uploadDate',l:'Upload Date',t:'datetime-local'}
+  ]
+};
+
+
+// ============================================
+// Sidebar & Form Generation
+// ============================================
+
+function renderSidebar() {
+  const cats = {};
+  for (const [type, def] of Object.entries(SCHEMAS)) {
+    if (!cats[def.cat]) cats[def.cat] = [];
+    cats[def.cat].push({ type, ...def });
+  }
+  let html = '';
+  for (const [cat, items] of Object.entries(cats)) {
+    html += `<div class="scat" data-cat="${cat}"><h3>${cat}</h3>`;
+    for (const item of items) {
+      html += `<div class="si" data-type="${item.type}" onclick="selectSchema('${item.type}')"><span class="em">${item.icon}</span>${item.type}</div>`;
+    }
+    html += '</div>';
+  }
+  document.getElementById('schemaList').innerHTML = html;
+}
+
+function filterSchemas() {
+  const q = document.getElementById('schemaSearch').value.toLowerCase();
+  document.querySelectorAll('.si').forEach(el => {
+    el.style.display = el.dataset.type.toLowerCase().includes(q) ? 'flex' : 'none';
+  });
+  document.querySelectorAll('.scat').forEach(el => {
+    const visible = el.querySelectorAll('.si[style*="flex"], .si:not([style])');
+    const hidden = el.querySelectorAll('.si[style*="none"]');
+    el.style.display = (visible.length === 0 && hidden.length > 0) ? 'none' : 'block';
+  });
+}
+
+function selectSchema(type) {
+  currentType = type;
+  const def = SCHEMAS[type];
+  document.querySelectorAll('.si').forEach(el => el.classList.toggle('active', el.dataset.type === type));
+  document.getElementById('formTitle').textContent = `${def.icon} ${type} Schema`;
+  document.getElementById('formSubtitle').textContent = def.desc;
+  document.getElementById('aiBar').style.display = 'block';
+  document.getElementById('formActions').style.display = 'flex';
+  renderForm(def.fields, 'formFields');
+  generateJsonLd();
+}
+
+function renderForm(fields, containerId, prefix = '') {
+  const container = document.getElementById(containerId);
+  let html = '';
+  for (const f of fields) {
+    const id = prefix ? `${prefix}_${f.n}` : f.n;
+    const badge = f.req ? '<span class="badge b-req">Required</span>' : (f.rec ? '<span class="badge b-rec">Recommended</span>' : '');
+    
+    if (f.t === 'nested') {
+      html += renderNestedField(f, id);
+    } else if (f.t === 'faq') {
+      html += renderFaqField(f, id);
+    } else if (f.t === 'steps') {
+      html += renderStepsField(f, id);
+    } else if (f.t === 'array') {
+      html += renderArrayField(f, id);
+    } else if (f.t === 'select') {
+      html += `<div class="fg"><label>${f.l}${badge}</label><select id="${id}" onchange="generateJsonLd()"><option value="">-- Select --</option>`;
+      for (const o of (f.opts || [])) html += `<option value="${o}">${o}</option>`;
+      html += `</select>${f.h ? `<p class="help">${f.h}</p>` : ''}</div>`;
+    } else if (f.t === 'textarea') {
+      html += `<div class="fg"><label>${f.l}${badge}</label><textarea id="${id}" placeholder="Enter ${f.l.toLowerCase()}..." oninput="generateJsonLd()">${''}</textarea>${f.h ? `<p class="help">${f.h}</p>` : ''}</div>`;
+    } else {
+      const inputType = f.t === 'url' ? 'url' : f.t === 'email' ? 'email' : f.t === 'tel' ? 'tel' : f.t === 'number' ? 'number' : f.t === 'date' ? 'date' : f.t === 'datetime-local' ? 'datetime-local' : 'text';
+      html += `<div class="fg"><label>${f.l}${badge}</label><input type="${inputType}" id="${id}" placeholder="Enter ${f.l.toLowerCase()}..." oninput="generateJsonLd()">${f.h ? `<p class="help">${f.h}</p>` : ''}</div>`;
+    }
+  }
+  container.innerHTML = html;
+}
+
+function renderNestedField(f, id) {
+  const nestedFields = NESTED_SCHEMAS[f.sc] || [];
+  const badge = f.req ? '<span class="badge b-req">Required</span>' : (f.rec ? '<span class="badge b-rec">Recommended</span>' : '');
+  let html = `<div class="fg"><label>${f.l}${badge}</label><div class="nested"><h4>📎 ${f.sc}</h4>`;
+  for (const nf of nestedFields) {
+    const nid = `${id}_${nf.n}`;
+    if (nf.t === 'select') {
+      html += `<div class="fg"><label>${nf.l}</label><select id="${nid}" onchange="generateJsonLd()"><option value="">-- Select --</option>`;
+      for (const o of (nf.opts || [])) html += `<option value="${o}">${o}</option>`;
+      html += `</select></div>`;
+    } else {
+      const inputType = nf.t === 'url' ? 'url' : nf.t === 'number' ? 'number' : nf.t === 'datetime-local' ? 'datetime-local' : nf.t === 'date' ? 'date' : 'text';
+      html += `<div class="fg"><label>${nf.l}${nf.req ? '<span class="badge b-req">Required</span>' : ''}</label><input type="${inputType}" id="${nid}" placeholder="Enter ${nf.l.toLowerCase()}..." oninput="generateJsonLd()"></div>`;
+    }
+  }
+  html += '</div></div>';
+  return html;
+}
+
+function renderFaqField(f, id) {
+  const badge = f.req ? '<span class="badge b-req">Required</span>' : '';
+  return `<div class="fg"><label>${f.l}${badge}</label>${f.h ? `<p class="help">${f.h}</p>` : ''}
+    <div class="arr-field" id="${id}_container">
+      <div class="faq-item" style="margin-bottom:12px">
+        <input type="text" placeholder="Question" class="faq-q" style="margin-bottom:6px" oninput="generateJsonLd()">
+        <textarea placeholder="Answer" class="faq-a" style="min-height:60px" oninput="generateJsonLd()"></textarea>
+      </div>
+    </div>
+    <button class="btn btn-s btn-sm" onclick="addFaqItem('${id}_container')" style="margin-top:8px">+ Add FAQ</button>
+  </div>`;
+}
+
+function addFaqItem(containerId) {
+  const container = document.getElementById(containerId);
+  const div = document.createElement('div');
+  div.className = 'faq-item';
+  div.style.marginBottom = '12px';
+  div.innerHTML = `<div style="display:flex;gap:8px;align-items:start"><div style="flex:1"><input type="text" placeholder="Question" class="faq-q" style="margin-bottom:6px" oninput="generateJsonLd()"><textarea placeholder="Answer" class="faq-a" style="min-height:60px" oninput="generateJsonLd()"></textarea></div><button class="rbtn" onclick="this.parentElement.parentElement.remove();generateJsonLd()" style="background:var(--er);color:#fff;border:none;border-radius:6px;width:28px;height:28px;cursor:pointer;margin-top:2px">×</button></div>`;
+  container.appendChild(div);
+}
+
+function renderStepsField(f, id) {
+  const badge = f.req ? '<span class="badge b-req">Required</span>' : '';
+  return `<div class="fg"><label>${f.l}${badge}</label>${f.h ? `<p class="help">${f.h}</p>` : ''}
+    <div class="arr-field" id="${id}_container">
+      <div class="step-item" style="margin-bottom:8px">
+        <div style="display:flex;gap:8px;align-items:center"><span style="color:var(--pl);font-weight:700;min-width:24px">1.</span><input type="text" placeholder="Step description" class="step-text" style="flex:1" oninput="generateJsonLd()"></div>
+      </div>
+    </div>
+    <button class="btn btn-s btn-sm" onclick="addStepItem('${id}_container')" style="margin-top:8px">+ Add Step</button>
+  </div>`;
+}
+
+function addStepItem(containerId) {
+  const container = document.getElementById(containerId);
+  const num = container.querySelectorAll('.step-item').length + 1;
+  const div = document.createElement('div');
+  div.className = 'step-item';
+  div.style.marginBottom = '8px';
+  div.innerHTML = `<div style="display:flex;gap:8px;align-items:center"><span style="color:var(--pl);font-weight:700;min-width:24px">${num}.</span><input type="text" placeholder="Step description" class="step-text" style="flex:1" oninput="generateJsonLd()"><button class="rbtn" onclick="this.parentElement.parentElement.remove();renumberSteps('${containerId}');generateJsonLd()" style="background:var(--er);color:#fff;border:none;border-radius:6px;width:28px;height:28px;cursor:pointer">×</button></div>`;
+  container.appendChild(div);
+}
+
+function renumberSteps(containerId) {
+  const items = document.getElementById(containerId).querySelectorAll('.step-item');
+  items.forEach((item, i) => {
+    const span = item.querySelector('span');
+    if (span) span.textContent = (i + 1) + '.';
+  });
+}
+
+function renderArrayField(f, id) {
+  const badge = f.req ? '<span class="badge b-req">Required</span>' : '';
+  return `<div class="fg"><label>${f.l}${badge}</label>${f.h ? `<p class="help">${f.h}</p>` : ''}
+    <div class="arr-field" id="${id}_container">
+      <div class="arr-item"><input type="text" placeholder="Enter item..." oninput="generateJsonLd()"><button class="rbtn" onclick="if(this.parentElement.parentElement.children.length>1){this.parentElement.remove();generateJsonLd()}">×</button></div>
+    </div>
+    <button class="btn btn-s btn-sm" onclick="addArrayItem('${id}_container')" style="margin-top:8px">+ Add Item</button>
+  </div>`;
+}
+
+function addArrayItem(containerId) {
+  const container = document.getElementById(containerId);
+  const div = document.createElement('div');
+  div.className = 'arr-item';
+  div.innerHTML = `<input type="text" placeholder="Enter item..." oninput="generateJsonLd()"><button class="rbtn" onclick="this.parentElement.remove();generateJsonLd()">×</button>`;
+  container.appendChild(div);
+}
+
+
+// ============================================
+// JSON-LD Builder
+// ============================================
+
+function generateJsonLd() {
+  if (!currentType) return;
+  const def = SCHEMAS[currentType];
+  const jsonLd = { '@context': 'https://schema.org', '@type': currentType };
+  
+  for (const f of def.fields) {
+    const val = getFieldValue(f, f.n);
+    if (val !== null && val !== undefined && val !== '') {
+      jsonLd[f.n] = val;
+    }
+  }
+  
+  currentJsonLd = jsonLd;
+  const formatted = JSON.stringify(jsonLd, null, 2);
+  document.getElementById('codeOutput').textContent = formatted;
+  updatePreview(jsonLd);
+  validateSchema();
+}
+
+function getFieldValue(f, id) {
+  if (f.t === 'nested') {
+    return getNestedValue(f, id);
+  } else if (f.t === 'faq') {
+    return getFaqValue(id);
+  } else if (f.t === 'steps') {
+    return getStepsValue(id);
+  } else if (f.t === 'array') {
+    return getArrayValue(id);
+  } else {
+    const el = document.getElementById(id);
+    if (!el) return null;
+    let val = el.value.trim();
+    if (!val) return null;
+    if (f.t === 'number') return Number(val);
+    if (f.t === 'datetime-local' && val) {
+      return val.includes('T') ? val + ':00' : val;
+    }
+    return val;
+  }
+}
+
+function getNestedValue(f, id) {
+  const nestedFields = NESTED_SCHEMAS[f.sc] || [];
+  const obj = {};
+  let hasValue = false;
+  
+  if (f.sc === 'Person') obj['@type'] = 'Person';
+  else if (f.sc === 'Organization') obj['@type'] = 'Organization';
+  else if (f.sc === 'Offer') obj['@type'] = 'Offer';
+  else if (f.sc === 'AggregateRating') obj['@type'] = 'AggregateRating';
+  else if (f.sc === 'Review') obj['@type'] = 'Review';
+  else if (f.sc === 'Place') obj['@type'] = 'Place';
+  else if (f.sc === 'PostalAddress') obj['@type'] = 'PostalAddress';
+  else if (f.sc === 'GeoCoordinates') obj['@type'] = 'GeoCoordinates';
+  else if (f.sc === 'VideoObject') obj['@type'] = 'VideoObject';
+  else if (f.sc === 'NutritionInformation') obj['@type'] = 'NutritionInformation';
+  else obj['@type'] = f.sc;
+  
+  for (const nf of nestedFields) {
+    const nid = `${id}_${nf.n}`;
+    const el = document.getElementById(nid);
+    if (el && el.value.trim()) {
+      let val = el.value.trim();
+      if (nf.t === 'number') val = Number(val);
+      obj[nf.n] = val;
+      hasValue = true;
+    }
+  }
+  
+  return hasValue ? obj : null;
+}
+
+function getFaqValue(id) {
+  const container = document.getElementById(`${id}_container`);
+  if (!container) return null;
+  const items = container.querySelectorAll('.faq-item');
+  const faqs = [];
+  items.forEach(item => {
+    const q = item.querySelector('.faq-q');
+    const a = item.querySelector('.faq-a');
+    if (q && a && q.value.trim() && a.value.trim()) {
+      faqs.push({
+        '@type': 'Question',
+        name: q.value.trim(),
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: a.value.trim()
+        }
+      });
+    }
+  });
+  return faqs.length > 0 ? faqs : null;
+}
+
+function getStepsValue(id) {
+  const container = document.getElementById(`${id}_container`);
+  if (!container) return null;
+  const items = container.querySelectorAll('.step-item');
+  const steps = [];
+  let pos = 1;
+  items.forEach(item => {
+    const nameEl = item.querySelector('.step-name');
+    const textEl = item.querySelector('.step-text');
+    const imgEl = item.querySelector('.step-img');
+    if (nameEl && textEl && (nameEl.value.trim() || textEl.value.trim())) {
+      const step = { '@type': 'HowToStep', position: pos++ };
+      if (nameEl.value.trim()) step.name = nameEl.value.trim();
+      if (textEl.value.trim()) step.text = textEl.value.trim();
+      if (imgEl && imgEl.value.trim()) step.image = imgEl.value.trim();
+      steps.push(step);
+    }
+  });
+  return steps.length > 0 ? steps : null;
+}
+
+function getArrayValue(id) {
+  const container = document.getElementById(`${id}_container`);
+  if (!container) return null;
+  const items = container.querySelectorAll('.arr-item input');
+  const values = [];
+  items.forEach(input => {
+    if (input.value.trim()) values.push(input.value.trim());
+  });
+  return values.length > 0 ? values : null;
+}
+
+// ============================================
+// Validation
+// ============================================
+
+function validateSchema() {
+  if (!currentJsonLd || !currentType) {
+    document.getElementById('validationStatus').innerHTML = '';
+    return;
+  }
+  
+  const errors = [];
+  const warnings = [];
+  const def = SCHEMAS[currentType];
+  
+  // Check required fields
+  for (const f of def.fields) {
+    if (f.req) {
+      const val = currentJsonLd[f.n];
+      if (!val || (Array.isArray(val) && val.length === 0)) {
+        errors.push(`Missing required field: ${f.l}`);
+      }
+    }
+    if (f.rec) {
+      const val = currentJsonLd[f.n];
+      if (!val) {
+        warnings.push(`Recommended field missing: ${f.l}`);
+      }
+    }
+  }
+  
+  // Validate JSON-LD structure
+  if (!currentJsonLd['@context']) errors.push('Missing @context');
+  if (!currentJsonLd['@type']) errors.push('Missing @type');
+  
+  // Type-specific validations
+  if (currentType === 'Article' && currentJsonLd.headline && currentJsonLd.headline.length > 110) {
+    warnings.push('Headline exceeds 110 characters');
+  }
+  if (currentType === 'Product' && currentJsonLd.offers) {
+    if (!currentJsonLd.offers.price) warnings.push('Product offer missing price');
+    if (!currentJsonLd.offers.priceCurrency) warnings.push('Product offer missing currency');
+  }
+  if (currentType === 'Event') {
+    if (currentJsonLd.startDate && currentJsonLd.endDate && currentJsonLd.endDate < currentJsonLd.startDate) {
+      errors.push('End date is before start date');
+    }
+  }
+  
+  const statusEl = document.getElementById('validationStatus');
+  if (errors.length === 0 && warnings.length === 0) {
+    statusEl.innerHTML = '<div class="valid-ok">✅ Valid JSON-LD - No issues found</div>';
+  } else {
+    let html = '';
+    if (errors.length > 0) {
+      html += errors.map(e => `<div class="valid-err">❌ ${e}</div>`).join('');
+    }
+    if (warnings.length > 0) {
+      html += warnings.map(w => `<div class="valid-err" style="color:var(--wn)">⚠️ ${w}</div>`).join('');
+    }
+    statusEl.innerHTML = html;
+  }
+}
+
+
+// ============================================
+// Rich Results Preview
+// ============================================
+
+function updatePreview(jsonLd) {
+  const box = document.getElementById('previewBox');
+  const type = jsonLd['@type'];
+  let title = jsonLd.name || jsonLd.headline || 'Your Page Title';
+  let url = jsonLd.url || 'https://example.com';
+  let desc = jsonLd.description || 'Your page description will appear here.';
+  
+  let richHtml = '';
+  
+  if (type === 'Product' && jsonLd.offers) {
+    const o = jsonLd.offers;
+    richHtml += '<div class="p-rich">';
+    if (jsonLd.aggregateRating) {
+      const r = jsonLd.aggregateRating;
+      richHtml += `<div class="p-stars">${'★'.repeat(Math.round(Number(r.ratingValue)||0))}${'☆'.repeat(5-Math.round(Number(r.ratingValue)||0))} ${r.ratingValue || ''}/5</div>`;
+      if (r.reviewCount) richHtml += `<div class="p-meta">${r.reviewCount} reviews</div>`;
+    }
+    if (o.price) richHtml += `<div class="p-meta" style="font-weight:700;color:#202124;font-size:16px">${o.priceCurrency||'$'}${o.price}</div>`;
+    if (o.availability) richHtml += `<div class="p-meta">${o.availability.replace('https://schema.org/','')}</div>`;
+    richHtml += '</div>';
+  }
+  
+  if (type === 'FAQPage' && jsonLd.mainEntity) {
+    richHtml += '<div class="p-faq">';
+    jsonLd.mainEntity.slice(0, 3).forEach(faq => {
+      richHtml += `<div class="p-faq-q">▸ ${faq.name}</div><div class="p-faq-a">${faq.acceptedAnswer.text.substring(0, 150)}${faq.acceptedAnswer.text.length > 150 ? '...' : ''}</div>`;
+    });
+    if (jsonLd.mainEntity.length > 3) richHtml += `<div class="p-meta" style="padding-top:8px">+ ${jsonLd.mainEntity.length - 3} more questions</div>`;
+    richHtml += '</div>';
+  }
+  
+  if (type === 'Recipe') {
+    richHtml += '<div class="p-rich">';
+    if (jsonLd.aggregateRating) {
+      const r = jsonLd.aggregateRating;
+      richHtml += `<div class="p-stars">${'★'.repeat(Math.round(Number(r.ratingValue)||0))}${'☆'.repeat(5-Math.round(Number(r.ratingValue)||0))} ${r.ratingValue||''}</div>`;
+    }
+    const meta = [];
+    if (jsonLd.totalTime) meta.push(formatDuration(jsonLd.totalTime));
+    if (jsonLd.recipeYield) meta.push(jsonLd.recipeYield);
+    if (jsonLd.nutrition) meta.push(jsonLd.nutrition);
+    if (meta.length) richHtml += `<div class="p-meta">${meta.join(' · ')}</div>`;
+    richHtml += '</div>';
+  }
+  
+  if (type === 'Event') {
+    richHtml += '<div class="p-rich">';
+    if (jsonLd.startDate) richHtml += `<div class="p-meta" style="color:#D93025;font-weight:600">${formatDate(jsonLd.startDate)}</div>`;
+    if (jsonLd.location && jsonLd.location.name) richHtml += `<div class="p-meta">📍 ${jsonLd.location.name}</div>`;
+    if (jsonLd.offers && jsonLd.offers.price) richHtml += `<div class="p-meta">🎫 From ${jsonLd.offers.priceCurrency||'$'}${jsonLd.offers.price}</div>`;
+    richHtml += '</div>';
+  }
+  
+  if (type === 'LocalBusiness') {
+    richHtml += '<div class="p-rich">';
+    if (jsonLd.aggregateRating) {
+      const r = jsonLd.aggregateRating;
+      richHtml += `<div class="p-stars">${'★'.repeat(Math.round(Number(r.ratingValue)||0))}${'☆'.repeat(5-Math.round(Number(r.ratingValue)||0))} ${r.ratingValue||''}</div>`;
+      if (r.reviewCount) richHtml += `<div class="p-meta">${r.reviewCount} reviews</div>`;
+    }
+    if (jsonLd.address) {
+      const a = jsonLd.address;
+      richHtml += `<div class="p-meta">📍 ${[a.streetAddress, a.addressLocality, a.addressRegion].filter(Boolean).join(', ')}</div>`;
+    }
+    if (jsonLd.telephone) richHtml += `<div class="p-meta">📞 ${jsonLd.telephone}</div>`;
+    if (jsonLd.openingHours) richHtml += `<div class="p-meta">🕐 ${jsonLd.openingHours}</div>`;
+    richHtml += '</div>';
+  }
+  
+  if (type === 'Article') {
+    richHtml += '<div class="p-rich">';
+    const meta = [];
+    if (jsonLd.author && jsonLd.author.name) meta.push(jsonLd.author.name);
+    if (jsonLd.datePublished) meta.push(formatDate(jsonLd.datePublished));
+    if (meta.length) richHtml += `<div class="p-meta">${meta.join(' · ')}</div>`;
+    richHtml += '</div>';
+  }
+  
+  if (type === 'HowTo') {
+    richHtml += '<div class="p-rich">';
+    if (jsonLd.totalTime) richHtml += `<div class="p-meta">⏱️ ${formatDuration(jsonLd.totalTime)}</div>`;
+    if (jsonLd.step) {
+      richHtml += '<div style="margin-top:6px">';
+      jsonLd.step.slice(0, 3).forEach(s => {
+        richHtml += `<div class="p-meta" style="padding:2px 0"><strong>Step ${s.position}:</strong> ${s.name || s.text?.substring(0, 60) || ''}</div>`;
+      });
+      if (jsonLd.step.length > 3) richHtml += `<div class="p-meta">+ ${jsonLd.step.length - 3} more steps</div>`;
+      richHtml += '</div>';
+    }
+    richHtml += '</div>';
+  }
+  
+  if (type === 'VideoObject') {
+    richHtml += '<div class="p-rich">';
+    if (jsonLd.thumbnailUrl) richHtml += `<div style="background:#000;border-radius:8px;padding:20px;text-align:center;margin-bottom:8px"><span style="font-size:2rem">▶️</span></div>`;
+    if (jsonLd.duration) richHtml += `<div class="p-meta">⏱️ ${formatDuration(jsonLd.duration)}</div>`;
+    if (jsonLd.uploadDate) richHtml += `<div class="p-meta">${formatDate(jsonLd.uploadDate)}</div>`;
+    richHtml += '</div>';
+  }
+  
+  if ((type === 'SoftwareApplication' || type === 'WebSite') && jsonLd.aggregateRating) {
+    richHtml += '<div class="p-rich">';
+    const r = jsonLd.aggregateRating;
+    richHtml += `<div class="p-stars">${'★'.repeat(Math.round(Number(r.ratingValue)||0))}${'☆'.repeat(5-Math.round(Number(r.ratingValue)||0))} ${r.ratingValue||''}/5</div>`;
+    if (r.reviewCount) richHtml += `<div class="p-meta">${r.reviewCount} reviews</div>`;
+    richHtml += '</div>';
+  }
+  
+  if (type === 'JobPosting') {
+    richHtml += '<div class="p-rich">';
+    if (jsonLd.hiringOrganization && jsonLd.hiringOrganization.name) richHtml += `<div class="p-meta" style="font-weight:600">${jsonLd.hiringOrganization.name}</div>`;
+    if (jsonLd.jobLocation && jsonLd.jobLocation.name) richHtml += `<div class="p-meta">📍 ${jsonLd.jobLocation.name}</div>`;
+    if (jsonLd.employmentType) richHtml += `<div class="p-meta">💼 ${jsonLd.employmentType}</div>`;
+    if (jsonLd.datePosted) richHtml += `<div class="p-meta">Posted: ${formatDate(jsonLd.datePosted)}</div>`;
+    richHtml += '</div>';
+  }
+  
+  if (type === 'BreadcrumbList' && jsonLd.itemListElement) {
+    richHtml += '<div class="p-rich">';
+    const crumbs = jsonLd.itemListElement.map(i => i.name || i.item || '').filter(Boolean);
+    richHtml += `<div class="p-url" style="color:#006621">${crumbs.join(' › ')}</div>`;
+    richHtml += '</div>';
+  }
+  
+  if (type === 'Course') {
+    richHtml += '<div class="p-rich">';
+    if (jsonLd.provider && jsonLd.provider.name) richHtml += `<div class="p-meta" style="font-weight:600">${jsonLd.provider.name}</div>`;
+    if (jsonLd.courseMode) richHtml += `<div class="p-meta">📚 ${jsonLd.courseMode}</div>`;
+    richHtml += '</div>';
+  }
+  
+  box.innerHTML = `<div class="p-title">${escHtml(title)}</div><div class="p-url">${escHtml(url)}</div><div class="p-desc">${escHtml(desc.substring(0, 160))}</div>${richHtml}`;
+}
+
+function formatDuration(iso) {
+  if (!iso) return '';
+  const m = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+  if (!m) return iso;
+  const parts = [];
+  if (m[1]) parts.push(`${m[1]}h`);
+  if (m[2]) parts.push(`${m[2]}m`);
+  if (m[3]) parts.push(`${m[3]}s`);
+  return parts.join(' ') || iso;
+}
+
+function formatDate(d) {
+  if (!d) return '';
+  try { return new Date(d).toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' }); }
+  catch(e) { return d; }
+}
+
+function escHtml(s) {
+  const d = document.createElement('div');
+  d.textContent = s || '';
+  return d.innerHTML;
+}
+
+// ============================================
+// AI Smart Fill (DeepSeek API)
+// ============================================
+
+async function aiSmartFill() {
+  const input = document.getElementById('aiInput').value.trim();
+  if (!input) { showToast('Please enter a URL or description', 'warn'); return; }
+  
+  const key = apiKey || localStorage.getItem('deepseek_api_key');
+  if (!key) { showToast('Please set your DeepSeek API key in Settings', 'err'); openSettingsModal(); return; }
+  
+  const btn = document.getElementById('aiBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Analyzing...';
+  
+  const schemaList = Object.keys(SCHEMAS).join(', ');
+  const currentFields = currentType ? SCHEMAS[currentType].fields.map(f => `${f.n} (${f.l})`).join(', ') : '';
+  
+  const prompt = currentType
+    ? `You are a Schema.org structured data expert. The user wants to create a "${currentType}" schema markup. Based on the following input, generate appropriate field values.\n\nInput: ${input}\n\nFields to fill: ${currentFields}\n\nRespond with ONLY a valid JSON object where keys are field names and values are the appropriate content. For nested fields like author, use an object with sub-fields. For array fields, use arrays. For datetime fields, use ISO 8601 format. Do not include @context or @type.`
+    : `You are a Schema.org structured data expert. Based on the following input, recommend the best schema type and generate field values.\n\nAvailable types: ${schemaList}\n\nInput: ${input}\n\nRespond with ONLY a valid JSON object with two keys: "recommendedType" (one of the available types) and "fields" (object with field values for that type). For nested fields, use objects. For arrays, use arrays. For datetime, use ISO 8601.`;
+  
+  try {
+    const resp = await fetch('https://api.deepseek.com/chat/completions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+      body: JSON.stringify({
+        model: 'deepseek-chat',
+        messages: [{ role: 'user', content: prompt }],
+        temperature: 0.3,
+        max_tokens: 2000
+      })
+    });
+    
+    if (!resp.ok) {
+      const errData = await resp.json().catch(() => ({}));
+      throw new Error(errData.error?.message || `API error: ${resp.status}`);
+    }
+    
+    const data = await resp.json();
+    let content = data.choices[0].message.content.trim();
+    
+    // Extract JSON from markdown code blocks if present
+    const jsonMatch = content.match(/```(?:json)?\s*([\s\S]*?)```/);
+    if (jsonMatch) content = jsonMatch[1].trim();
+    
+    const result = JSON.parse(content);
+    
+    if (!currentType && result.recommendedType) {
+      selectSchema(result.recommendedType);
+      showToast(`AI recommended: ${result.recommendedType}`, 'ok');
+      await new Promise(r => setTimeout(r, 300));
+      fillFormWithData(result.fields || result);
+    } else {
+      fillFormWithData(result);
+    }
+    
+    generateJsonLd();
+    showToast('AI Smart Fill completed!', 'ok');
+  } catch (err) {
+    console.error('AI error:', err);
+    showToast(`AI error: ${err.message}`, 'err');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '✨ Auto Fill';
+  }
+}
+
+function fillFormWithData(data) {
+  if (!data || !currentType) return;
+  const def = SCHEMAS[currentType];
+  
+  for (const f of def.fields) {
+    const val = data[f.n];
+    if (val === undefined || val === null) continue;
+    
+    if (f.t === 'nested' && typeof val === 'object') {
+      const nestedFields = NESTED_SCHEMAS[f.sc] || [];
+      for (const nf of nestedFields) {
+        const nid = `${f.n}_${nf.n}`;
+        const el = document.getElementById(nid);
+        if (el && val[nf.n] !== undefined) el.value = val[nf.n];
+      }
+    } else if (f.t === 'faq' && Array.isArray(val)) {
+      const container = document.getElementById(`${f.n}_container`);
+      if (!container) continue;
+      container.innerHTML = '';
+      val.forEach(item => {
+        const q = item.name || item.question || '';
+        const a = (item.acceptedAnswer && item.acceptedAnswer.text) || item.answer || '';
+        const div = document.createElement('div');
+        div.className = 'faq-item';
+        div.style.marginBottom = '12px';
+        div.innerHTML = `<input type="text" placeholder="Question" class="faq-q" style="margin-bottom:6px" value="${escAttr(q)}" oninput="generateJsonLd()"><textarea placeholder="Answer" class="faq-a" style="min-height:60px" oninput="generateJsonLd()">${escHtml(a)}</textarea>`;
+        container.appendChild(div);
+      });
+    } else if (f.t === 'steps' && Array.isArray(val)) {
+      const container = document.getElementById(`${f.n}_container`);
+      if (!container) continue;
+      container.innerHTML = '';
+      val.forEach(item => {
+        const name = item.name || '';
+        const text = item.text || '';
+        const div = document.createElement('div');
+        div.className = 'step-item';
+        div.style.marginBottom = '12px';
+        div.innerHTML = `<input type="text" placeholder="Step name" class="step-name" style="margin-bottom:4px" value="${escAttr(name)}" oninput="generateJsonLd()"><textarea placeholder="Step details" class="step-text" style="min-height:50px" oninput="generateJsonLd()">${escHtml(text)}</textarea><input type="url" placeholder="Step image URL (optional)" class="step-img" style="margin-top:4px" oninput="generateJsonLd()">`;
+        container.appendChild(div);
+      });
+    } else if (f.t === 'array' && Array.isArray(val)) {
+      const container = document.getElementById(`${f.n}_container`);
+      if (!container) continue;
+      container.innerHTML = '';
+      val.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'arr-item';
+        div.innerHTML = `<input type="text" value="${escAttr(String(item))}" oninput="generateJsonLd()"><button class="rbtn" onclick="this.parentElement.remove();generateJsonLd()">×</button>`;
+        container.appendChild(div);
+      });
+    } else {
+      const el = document.getElementById(f.n);
+      if (el) el.value = typeof val === 'object' ? JSON.stringify(val) : String(val);
+    }
+  }
+}
+
+function escAttr(s) {
+  return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+
+// ============================================
+// Batch Generation
+// ============================================
+
+function openBatchModal() {
+  document.getElementById('batchModal').style.display = 'flex';
+  if (!document.getElementById('batchItems').children.length) addBatchItem();
+}
+function closeBatchModal() { document.getElementById('batchModal').style.display = 'none'; }
+
+function addBatchItem() {
+  const container = document.getElementById('batchItems');
+  const idx = container.children.length;
+  const div = document.createElement('div');
+  div.style.cssText = 'margin-bottom:12px;padding:12px;background:var(--bgi);border-radius:8px;';
+  let opts = '';
+  for (const t of Object.keys(SCHEMAS)) opts += `<option value="${t}">${SCHEMAS[t].icon} ${t}</option>`;
+  div.innerHTML = `<div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
+    <select class="batch-type" style="flex:1;padding:8px;background:var(--bg);border:1px solid var(--bd);border-radius:6px;color:var(--t);font-size:.85rem">${opts}</select>
+    <button class="rbtn" onclick="this.parentElement.parentElement.remove()" style="background:var(--er);color:#fff;border:none;border-radius:6px;width:28px;height:28px;cursor:pointer">×</button>
+  </div>
+  <textarea class="batch-desc" placeholder="Describe this item for AI to fill (e.g., 'A chocolate cake recipe that takes 1 hour')" style="width:100%;padding:8px;background:var(--bg);border:1px solid var(--bd);border-radius:6px;color:var(--t);font-size:.85rem;min-height:60px;font-family:inherit;resize:vertical"></textarea>`;
+  container.appendChild(div);
+}
+
+async function generateBatch() {
+  const items = document.getElementById('batchItems').children;
+  if (!items.length) { showToast('Add at least one schema item', 'error'); return; }
+  if (!apiKey) { showToast('Set your DeepSeek API key in Settings first', 'error'); openSettingsModal(); return; }
+  
+  const outputEl = document.getElementById('batchOutput');
+  outputEl.style.display = 'block';
+  outputEl.textContent = 'Generating schemas with AI... Please wait...';
+  
+  const schemas = [];
+  for (const item of items) {
+    const type = item.querySelector('.batch-type').value;
+    const desc = item.querySelector('.batch-desc').value;
+    schemas.push({ type, desc });
+  }
+  
+  const prompt = `Generate JSON-LD structured data for the following items. Return ONLY a valid JSON array of JSON-LD objects, no explanation.
+
+${schemas.map((s, i) => `${i+1}. Type: ${s.type}${s.desc ? ', Description: ' + s.desc : ''}`).join('\n')}
+
+Requirements:
+- Each object must have @context: "https://schema.org" and correct @type
+- Include all required properties per Google's 2025 structured data guidelines
+- Use realistic placeholder data if no description provided
+- Return valid JSON array only`;
+
+  try {
+    const response = await fetch('https://api.deepseek.com/chat/completions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+      body: JSON.stringify({
+        model: 'deepseek-chat',
+        messages: [
+          { role: 'system', content: 'You are a Schema.org structured data expert. Return only valid JSON, no markdown or explanation.' },
+          { role: 'user', content: prompt }
+        ],
+        temperature: 0.3
+      })
+    });
+    const data = await response.json();
+    if (data.error) throw new Error(data.error.message);
+    let content = data.choices[0].message.content.trim();
+    content = content.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+    const parsed = JSON.parse(content);
+    const formatted = JSON.stringify(parsed, null, 2);
+    outputEl.textContent = formatted;
+    showToast('Batch generation complete!', 'success');
+  } catch (err) {
+    outputEl.textContent = 'Error: ' + err.message;
+    showToast('Batch generation failed: ' + err.message, 'error');
+  }
+}
+
+// ============================================
+// Copy, Download, Test
+// ============================================
+
+function copyCode() {
+  if (!currentJsonLd) { showToast('Generate JSON-LD first', 'error'); return; }
+  const text = JSON.stringify(currentJsonLd, null, 2);
+  navigator.clipboard.writeText(text).then(() => showToast('JSON-LD copied to clipboard!', 'success'));
+}
+
+function copyHtmlCode() {
+  if (!currentJsonLd) { showToast('Generate JSON-LD first', 'error'); return; }
+  const html = `<script type="application/ld+json">\n${JSON.stringify(currentJsonLd, null, 2)}\n<\/script>`;
+  navigator.clipboard.writeText(html).then(() => showToast('HTML script tag copied!', 'success'));
+}
+
+function downloadJson() {
+  if (!currentJsonLd) { showToast('Generate JSON-LD first', 'error'); return; }
+  const blob = new Blob([JSON.stringify(currentJsonLd, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `${currentType || 'schema'}-markup.json`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+  showToast('JSON-LD file downloaded!', 'success');
+}
+
+function testRichResults() {
+  if (!currentJsonLd) { showToast('Generate JSON-LD first', 'error'); return; }
+  const encoded = encodeURIComponent(JSON.stringify(currentJsonLd));
+  window.open(`https://search.google.com/test/rich-results?code=${encoded}`, '_blank');
+}
+
+// ============================================
+// Settings
+// ============================================
+
+function openSettingsModal() {
+  document.getElementById('settingsModal').style.display = 'flex';
+  document.getElementById('apiKeyInput').value = apiKey;
+}
+function closeSettingsModal() { document.getElementById('settingsModal').style.display = 'none'; }
+
+function saveApiKey() {
+  apiKey = document.getElementById('apiKeyInput').value.trim();
+  localStorage.setItem('deepseek_api_key', apiKey);
+  closeSettingsModal();
+  showToast(apiKey ? 'API key saved!' : 'API key cleared', 'success');
+}
+
+// ============================================
+// UI Utilities
+// ============================================
+
+function showToast(msg, type = 'info') {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.className = 'toast show';
+  if (type === 'error') toast.style.background = 'var(--er)';
+  else if (type === 'success') toast.style.background = 'var(--ok)';
+  else toast.style.background = 'var(--p)';
+  setTimeout(() => { toast.className = 'toast'; }, 3000);
+}
+
+function formatDuration(iso) {
+  if (!iso) return '';
+  const m = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+  if (!m) return iso;
+  const parts = [];
+  if (m[1]) parts.push(`${m[1]}h`);
+  if (m[2]) parts.push(`${m[2]}m`);
+  if (m[3]) parts.push(`${m[3]}s`);
+  return parts.join(' ') || iso;
+}
+
+function formatDate(d) {
+  if (!d) return '';
+  try {
+    return new Date(d).toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+  } catch { return d; }
+}
+
+function toggleSidebar() {
+  const sb = document.getElementById('sidebar');
+  sb.style.display = sb.style.display === 'block' ? 'none' : 'block';
+}
+
+function showTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  if (tab === 'form') {
+    document.getElementById('formPanel').style.display = 'block';
+    document.getElementById('outputPanel').style.display = 'none';
+    document.querySelectorAll('.tab-btn')[0].classList.add('active');
+  } else {
+    document.getElementById('formPanel').style.display = 'none';
+    document.getElementById('outputPanel').style.display = 'block';
+    document.querySelectorAll('.tab-btn')[1].classList.add('active');
+  }
+}
+
+function resetForm() {
+  if (!currentType) return;
+  selectSchema(currentType);
+  showToast('Form reset', 'success');
+}
+
+// ============================================
+// Initialization
+// ============================================
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderSidebar();
+  // Check for saved API key
+  if (apiKey) {
+    document.getElementById('aiBar').style.display = 'block';
+  }
+  // Handle responsive
+  const mq = window.matchMedia('(max-width: 1200px)');
+  function handleResize(e) {
+    const sb = document.getElementById('sidebar');
+    if (e.matches) {
+      sb.style.display = 'none';
+      document.querySelector('.mobile-toggle').style.display = 'inline-flex';
+    } else {
+      sb.style.display = 'block';
+      document.querySelector('.mobile-toggle').style.display = 'none';
+    }
+  }
+  mq.addEventListener('change', handleResize);
+  handleResize(mq);
+  
+  // Select Article by default
+  selectSchema('Article');
+});
+
+</script>
+</body>
+</html>
